@@ -1,36 +1,100 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# INK Newspaper — The Weekly Editorial
 
-## Getting Started
+A production-ready, AI-assisted weekly newspaper web application designed with a **clay-inspired editorial minimalism** molded from warm paper and refined tactile surfaces.
 
-First, run the development server:
+---
 
+## 1. Key Features
+
+- **Editorial Design System**:
+  - Custom palette: `#F4EFE6` (paper background), `#FFFBF4` (elevated clay surface), `#171716` (primary ink), `#C96846` (clay accent), and `#91442F` (dark clay).
+  - High-contrast typography featuring **Fraunces** for editorial headlines and **Manrope** for interface clarity.
+  - Tactile clay elevation shadows, subtle warm borders, and responsive `clamp()` font scaling.
+  - Seamless Light / Dark theme persistence with zero hydration flicker.
+
+- **Public Publication Experience**:
+  - **Homepage**: Dominant lead story, supporting top stories, categorized sections (World, Politics, Tech, Business, Culture, Spirituality, Sports), breaking news alerts, and curated newsletter box.
+  - **Dexter’s Vantage Point**: Branded weekly column showcase with wax seal / signature detail, author profile, and complete essay archives.
+  - **Weekly Editions**: Volume & Issue cover index with table of contents and grouped articles.
+  - **Long-Form Reading**: Drop caps, breakout pull quotes, image captions & credits, social sharing, reading progress indicator, supporting citations, AI disclosure, and JSON-LD `NewsArticle` structured data.
+  - **Global Search**: Instant search modal (`⌘K` / `Ctrl+K`) with live keyword matching.
+  - **Full Standards**: RSS 2.0 feed (`/feed.xml`), dynamic sitemap (`/sitemap.xml`), and robots configuration.
+
+- **Newsroom CMS & Admin Suite (`/admin`)**:
+  - **Dashboard**: Review queues, scheduled publication counters, live editions status, and failed AI tasks monitor.
+  - **Article Editor**: TipTap rich text engine with custom formatting, revision history rollback, and live preview modal.
+  - **Dexter’s Column Studio**: 8-step streamlined workflow with drag-and-drop `.docx` to HTML converter.
+  - **News Discovery Pipeline**: One-click ingestion from **NewsData.io** and **GDELT 2.0 Doc API**, automatic deduplication, clustering, and license policy enforcement (`metadata_only`, `licensed_republish`, `public_domain`, `blocked`).
+  - **AI Drafting Engine**: **OpenAI Responses/Structured Output API** with strict Zod schema validation enforcing journalistic standards (zero hallucinations, primary source linking, factual claims extraction, conflict warnings).
+  - **Publishing Ledger**: Complete audit logging of all editorial actions.
+
+---
+
+## 2. Technical Stack
+
+- **Framework**: Next.js (App Router, Server Components & Actions)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS + Custom CSS Variables Design Tokens
+- **Rich Text**: TipTap (`@tiptap/react`, `@tiptap/starter-kit`, `@tiptap/extension-image`, `@tiptap/extension-link`)
+- **Animations**: Framer Motion
+- **AI Engine**: OpenAI API with Structured Output JSON Schema & Zod
+- **News Discovery**: NewsData.io API + GDELT 2.0 Doc API
+- **Document Processing**: Mammoth (.docx converter)
+- **Database**: Supabase PostgreSQL Schema + Local Persistent Singleton Adapter
+
+---
+
+## 3. Getting Started
+
+### 1. Environment Setup
+Copy `.env.example` to `.env.local`:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+cp .env.example .env.local
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Ensure the following environment variables are present in `.env.local`:
+```env
+OPENAI_API_KEY=your_openai_api_key
+OPENAI_TEXT_MODEL=gpt-4o-mini
+NEWSDATA_API_KEY=your_newsdata_api_key
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+GDELT_API_BASE_URL=https://api.gdeltproject.org/api/v2/doc/doc
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
 
-## Learn More
+CRON_SECRET=ink_editorial_cron_secret_key_prod_2026
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+```
 
-To learn more about Next.js, take a look at the following resources:
+### 2. Development Server
+Run the application locally:
+```bash
+npm run dev
+```
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 3. Staff CMS Access
+Navigate to [http://localhost:3000/admin/login](http://localhost:3000/admin/login) and select one of the built-in staff profiles:
+- **Administrator**: `editor-in-chief@inknewspaper.com` (Eleanor Vance)
+- **Desk Editor**: `marcus.thorne@inknewspaper.com` (Marcus Thorne)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 4. Database Setup (Supabase)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+To connect a remote Supabase project:
+1. Create a new Supabase PostgreSQL project.
+2. Open the SQL Editor in Supabase and run `supabase/migrations/001_init.sql`.
+3. Fill `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, and `SUPABASE_SERVICE_ROLE_KEY` in `.env.local`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 5. Deployment
+
+Deploy seamlessly to Vercel:
+```bash
+npx vercel
+```
+Set all environment variables from `.env.local` into the Vercel project settings.

@@ -1,26 +1,292 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* INK Light Palette (Default) */
+  --bg-paper: #F4EFE6;
+  --bg-surface: #FFFBF4;
+  --bg-subtle: #ECE5D8;
+  --text-ink: #171716;
+  --text-muted: #6B675F;
+  --text-faint: #969188;
+  --accent-clay: #C96846;
+  --accent-dark-clay: #91442F;
+  --accent-sage: #7E8C72;
+  --accent-gold: #D6A84B;
+  --border-paper: #D9D0C2;
+  --border-strong: #B8ADA0;
+  --status-breaking: #B63A32;
+  --status-success: #3F7A56;
+  --status-warning: #C27E2D;
+
+  /* Clay & Elevation Shadows */
+  --shadow-clay-sm: 0 2px 4px rgba(60, 45, 30, 0.04), 0 1px 2px rgba(60, 45, 30, 0.06);
+  --shadow-clay-md: 0 6px 16px -2px rgba(60, 45, 30, 0.08), 0 2px 6px -1px rgba(60, 45, 30, 0.04);
+  --shadow-clay-lg: 0 14px 28px -4px rgba(60, 45, 30, 0.10), 0 6px 12px -2px rgba(60, 45, 30, 0.05);
+  --shadow-clay-inset: inset 0 2px 4px rgba(60, 45, 30, 0.06), inset 0 -1px 2px rgba(255, 255, 255, 0.8);
+  --clay-highlight: inset 0 1px 1px rgba(255, 255, 255, 0.7);
+
+  /* Font variables populated by Next.js font loader */
+  --font-serif: var(--font-fraunces), Georgia, serif;
+  --font-sans: var(--font-manrope), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+[data-theme="dark"],
+.dark {
+  /* INK Dark Palette */
+  --bg-paper: #111315;
+  --bg-surface: #1A1D1F;
+  --bg-subtle: #22262A;
+  --text-ink: #F5EFE6;
+  --text-muted: #ABA49A;
+  --text-faint: #78736B;
+  --accent-clay: #E17A56;
+  --accent-dark-clay: #F09B7D;
+  --accent-sage: #9AAA90;
+  --accent-gold: #E0B45F;
+  --border-paper: #303437;
+  --border-strong: #464B50;
+  --status-breaking: #D84E44;
+  --status-success: #4E9B71;
+  --status-warning: #E09E44;
+
+  --shadow-clay-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+  --shadow-clay-md: 0 6px 16px -2px rgba(0, 0, 0, 0.45);
+  --shadow-clay-lg: 0 14px 28px -4px rgba(0, 0, 0, 0.6);
+  --shadow-clay-inset: inset 0 2px 4px rgba(0, 0, 0, 0.5), inset 0 -1px 1px rgba(255, 255, 255, 0.05);
+  --clay-highlight: inset 0 1px 1px rgba(255, 255, 255, 0.08);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  * {
+    border-color: var(--border-paper);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    background-color: var(--bg-paper);
+    color: var(--text-ink);
+  }
+
+  body {
+    background-color: var(--bg-paper);
+    color: var(--text-ink);
+    font-family: var(--font-sans);
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+
+  /* Editorial Headings */
+  h1, h2, h3, .font-editorial {
+    font-family: var(--font-serif);
+    letter-spacing: -0.02em;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Clay Surface Treatments */
+.clay-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-paper);
+  border-radius: 18px;
+  box-shadow: var(--shadow-clay-md), var(--clay-highlight);
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.clay-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-clay-lg), var(--clay-highlight);
+}
+
+.clay-card-static {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-paper);
+  border-radius: 18px;
+  box-shadow: var(--shadow-clay-md), var(--clay-highlight);
+}
+
+.clay-pill {
+  background-color: var(--bg-subtle);
+  border: 1px solid var(--border-paper);
+  border-radius: 9999px;
+  box-shadow: var(--shadow-clay-sm), var(--clay-highlight);
+}
+
+.clay-inset {
+  background-color: var(--bg-subtle);
+  border: 1px solid var(--border-paper);
+  border-radius: 14px;
+  box-shadow: var(--shadow-clay-inset);
+}
+
+.clay-btn-primary {
+  background-color: var(--accent-clay);
+  color: #FFFFFF;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 12px rgba(201, 104, 70, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.35);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.clay-btn-primary:hover {
+  background-color: var(--accent-dark-clay);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(201, 104, 70, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.45);
+}
+
+.clay-btn-primary:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 4px rgba(201, 104, 70, 0.25), inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.clay-btn-secondary {
+  background-color: var(--bg-surface);
+  color: var(--text-ink);
+  border: 1px solid var(--border-paper);
+  border-radius: 14px;
+  box-shadow: var(--shadow-clay-sm), var(--clay-highlight);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.clay-btn-secondary:hover {
+  background-color: var(--bg-subtle);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-clay-md), var(--clay-highlight);
+}
+
+.clay-btn-secondary:active {
+  transform: translateY(1px);
+  box-shadow: var(--shadow-clay-inset);
+}
+
+/* Hairline Editorial Divider */
+.hairline-divider {
+  height: 1px;
+  background-color: var(--border-paper);
+  width: 100%;
+}
+
+.hairline-v-divider {
+  width: 1px;
+  background-color: var(--border-paper);
+}
+
+/* Editorial Drop Cap */
+.drop-cap:first-letter {
+  font-family: var(--font-serif);
+  float: left;
+  font-size: 4.25rem;
+  line-height: 0.85;
+  padding-top: 4px;
+  padding-right: 12px;
+  padding-bottom: 2px;
+  color: var(--accent-clay);
+  font-weight: 700;
+}
+
+/* Rich Text / TipTap Typography */
+.prose-ink {
+  color: var(--text-ink);
+  font-size: 1.125rem;
+  line-height: 1.85;
+}
+
+.prose-ink p {
+  margin-bottom: 1.5rem;
+}
+
+.prose-ink h2 {
+  font-family: var(--font-serif);
+  font-size: 1.85rem;
+  font-weight: 700;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--text-ink);
+  letter-spacing: -0.02em;
+}
+
+.prose-ink h3 {
+  font-family: var(--font-serif);
+  font-size: 1.45rem;
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  color: var(--text-ink);
+}
+
+.prose-ink blockquote {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.4rem;
+  line-height: 1.5;
+  margin: 2.5rem 0;
+  padding: 1.5rem 2rem;
+  border-left: 4px solid var(--accent-clay);
+  background: var(--bg-surface);
+  border-radius: 0 16px 16px 0;
+  box-shadow: var(--shadow-clay-sm);
+  color: var(--text-ink);
+}
+
+.prose-ink ul {
+  list-style-type: disc;
+  margin-left: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.prose-ink ol {
+  list-style-type: decimal;
+  margin-left: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.prose-ink li {
+  margin-bottom: 0.5rem;
+}
+
+.prose-ink img {
+  border-radius: 16px;
+  margin: 2rem 0;
+  width: 100%;
+  box-shadow: var(--shadow-clay-md);
+}
+
+.prose-ink a {
+  color: var(--accent-clay);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Dexter Column Signature Accent */
+.dexter-accent-bg {
+  background: linear-gradient(135deg, rgba(201, 104, 70, 0.08) 0%, rgba(214, 168, 75, 0.06) 100%);
+  border: 1px solid rgba(201, 104, 70, 0.2);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-paper);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
 }
